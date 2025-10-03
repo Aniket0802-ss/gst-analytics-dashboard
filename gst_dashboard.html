@@ -1,0 +1,466 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Interactive GST Analytics Dashboard&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>:root {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--primary-color: #007bff;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--secondary-color: #f8f9fa;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--text-color: #333;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--card-bg: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--shadow: 0 4px 12px rgba(0, 0, 0, 0.1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #f4f7f9;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-color);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.dashboard-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: grid;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>grid-template-rows: auto auto 1fr;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>min-height: 100vh;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* --- Header &amp; Nav --- */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.header {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--primary-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 15px 30px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: var(--shadow);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.header h1 { margin: 0; font-size: 1.5em; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.nav-tabs {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--secondary-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 0 30px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-bottom: 1px solid #ddd;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.tab-button {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 15px 25px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #777;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: color 0.3s, border-bottom 0.3s;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.tab-button.active {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--primary-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-bottom: 4px solid var(--primary-color);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* --- Main Content --- */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.content-area { padding: 30px; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.tab-content { display: none; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.tab-content.active { display: block; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* --- KPI Cards --- */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.kpi-cards {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: grid;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 30px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.kpi-card {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--card-bg);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 25px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: var(--border-radius);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-left: 5px solid var(--primary-color);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.kpi-title { font-size: 0.9em; color: #555; margin-bottom: 8px; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.kpi-value { font-size: 2.2em; font-weight: 700; margin-bottom: 10px; color: var(--text-color); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.kpi-trend { font-size: 0.85em; font-weight: 600; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.positive { color: #28a745; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.negative { color: #dc3545; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* --- Chart and Table Sections --- */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.chart-section {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--card-bg);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: var(--border-radius);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: var(--shadow);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 30px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>h2 {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.4em;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-bottom: 1px solid #eee;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding-bottom: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--primary-color);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.chart-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 400px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* --- Party Table Style --- */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.data-table {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-collapse: collapse;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.9em;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.data-table th, .data-table td {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 12px 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: left;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-bottom: 1px solid #ddd;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.data-table th {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--secondary-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--primary-color);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.table-grid {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: grid;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>grid-template-columns: 1fr 1fr;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="dashboard-container"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h1&gt;GST Analytics: Defmacro Software Private Limited&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="gstin-select" style="font-weight: 600;"&gt;GSTIN: &lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;select id="gstin-select" style="padding: 5px; border-radius: 4px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="29AAFCD5862R1ZR"&gt;29AAFCD5862R1ZR (Primary)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="33AAFCD5862R1Z2"&gt;33AAFCD5862R1Z2 (Tamil Nadu)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="07AAFCD5862R1ZX"&gt;07AAFCD5862R1ZX (Delhi)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="nav-tabs"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="tab-button active" data-tab="overview"&gt;Financial Overview&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="tab-button" data-tab="trends"&gt;Month-Wise Trends&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="tab-button" data-tab="parties"&gt;Customer &amp; Supplier Analysis&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="content-area"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="overview" class="tab-content active"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2&gt;Key Financial Metrics (FY 2023-24 vs FY 2022-23)&lt;/h2&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="kpi-cards" id="kpi-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2&gt;Yearly Comparison: Turnover, Purchases &amp; Margin&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="chart-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="chart-container" style="height: 350px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;p style="text-align: center; color: #999;"&gt;Placeholder: Dual-Axis Bar Chart (Turnover vs Purchases)&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="chart-container" style="height: 350px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;p style="text-align: center; color: #999;"&gt;Placeholder: Gross Margin % Trend Line Chart&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="trends" class="tab-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2&gt;GST Liability vs. ITC Available (Month-Wise Trend)&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="chart-section"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="chart-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;canvas id="gstTrendChart"&gt;&lt;/canvas&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2&gt;Compliance Scorecard (FY 23-24)&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="kpi-cards"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="kpi-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="kpi-title"&gt;GSTR-1 Delayed Filings&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="kpi-value"&gt;4&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="kpi-trend negative"&gt;Out of 12 periods&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="kpi-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="kpi-title"&gt;GSTR-3B Not Filed&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="kpi-value"&gt;0&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="kpi-trend positive"&gt;100% Compliant&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="kpi-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="kpi-title"&gt;Total Tax Paid in Cash&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="kpi-value positive"&gt;₹ 14.28 Cr&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="kpi-trend"&gt;Tax Paid Through ITC is ₹ 20.3 Cr&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="parties" class="tab-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2&gt;Top Customers &amp; Suppliers (FY 24-25 Data)&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="table-grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="chart-section"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h3&gt;Top Customers (by Supply Value)&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;table class="data-table"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;GSTIN&lt;/th&gt;&lt;th&gt;Supply Value (₹)&lt;/th&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr&gt;&lt;td&gt;Times Internet Ltd.&lt;/td&gt;&lt;td&gt;06AABCT1559M1Z3&lt;/td&gt;&lt;td&gt;450,000&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr&gt;&lt;td&gt;V MART RETAIL LTD&lt;/td&gt;&lt;td&gt;06AABCV7206K1Z9&lt;/td&gt;&lt;td&gt;280,000&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr&gt;&lt;td&gt;NATIONAL HOUSING BANK&lt;/td&gt;&lt;td&gt;07AABCN2600H1ZY&lt;/td&gt;&lt;td&gt;203,390&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr&gt;&lt;td&gt;TATA COFFEE LIMITED&lt;/td&gt;&lt;td&gt;32AAJCT2098P1ZQ&lt;/td&gt;&lt;td&gt;1,008,189 (estimated)&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/table&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="chart-section"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h3&gt;Top Suppliers (by Purchase Value)&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;table class="data-table"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;GSTIN&lt;/th&gt;&lt;th&gt;Purchase Value (₹)&lt;/th&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr&gt;&lt;td&gt;INEXUS BIOTECH&lt;/td&gt;&lt;td&gt;33AABCI4477P1Z4&lt;/td&gt;&lt;td&gt;2,319,990&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr&gt;&lt;td&gt;Calpro Specialties&lt;/td&gt;&lt;td&gt;07AAACC2529H1ZY&lt;/td&gt;&lt;td&gt;1,855,992&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr&gt;&lt;td&gt;BIMAL AUTO AGENCY&lt;/td&gt;&lt;td&gt;29AAECB4356M1Z9&lt;/td&gt;&lt;td&gt;1,484,794&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr&gt;&lt;td&gt;TATA CONSULTANCY SVS&lt;/td&gt;&lt;td&gt;29AAECB4356M1Z9&lt;/td&gt;&lt;td&gt;1,210,000 (estimated)&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/table&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2&gt;State-Wise Distribution (Placeholder)&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="chart-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="chart-container" style="height: 350px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p style="text-align: center; color: #999;"&gt;Placeholder: State-Wise Sales Doughnut Chart&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="chart-container" style="height: 350px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p style="text-align: center; color: #999;"&gt;Placeholder: State-Wise Purchase Doughnut Chart&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Data processed from the CSV file GST Analytics Excel.xlsx - Month Wise Metrics.csv</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const CHART_DATA = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"labels": ["Apr 2023", "May 2023", "Jun 2023", "Jul 2023", "Aug 2023", "Sep 2023", "Oct 2023", "Nov 2023", "Dec 2023", "Jan 2024", "Feb 2024", "Mar 2024"],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"liability": [13269457.07, 788846.0, 1086641.76, 1818215.1, 1014169.0, 1495372.28, 3597374.0, 1148784.0, 1051566.0, 1073887.0, 1018288.0, 1030000.0],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"itc": [379068.0, 287783.5, 744276.22, 863149.98, 177378.3, 1413951.0, 1830476.06, 1148784.0, 1051566.0, 1073887.0, 1018288.0, 1030000.0]</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Sample Financial Data (for KPIs) from GSTIN Financials Summary.csv</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const financialData = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Extracted from GSTIN Financials Summary.csv</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Net Turnover': { fy24: 804377766, fy23: 583693227, format: 'currency' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Gross Margin %': { fy24: -0.2722, fy23: 0.7075, format: 'percent' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Extracted from Purchase.csv</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Total ITC Claimed (FY 24)': { fy24: 9398457.81, fy23: 7518766.25, format: 'currency' },<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Extracted from GSTIN Financials Summary.csv</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'Total Suppliers': { fy24: 110, fy23: 84, format: 'number' }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Utility Functions (Currency/Percent Formatting) ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function formatValue(value, type) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (type === 'currency') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Use Indian formatting for crores/lakhs for better readability</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const crores = value / 10000000;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (crores &gt;= 1) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>return `₹ ${crores.toFixed(2)} Cr`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else if (value &gt;= 100000) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>return `₹ ${(value / 100000).toFixed(2)} L`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return `₹ ${Math.round(value).toLocaleString('en-IN')}`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (type === 'percent') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return `${(value * 100).toFixed(2)} %`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return value.toLocaleString('en-IN');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function calculateTrend(current, previous, type) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let trendClass;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let trendValue;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (type === 'percent') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const difference = current - previous;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>trendValue = (difference * 100).toFixed(2);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>trendClass = difference &gt;= 0 ? 'positive' : 'negative';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return `&lt;span class="${trendClass}"&gt;${difference &gt;= 0 ? '▲' : '▼'} ${Math.abs(trendValue)} %pt (vs PY)&lt;/span&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const change = ((current - previous) / previous) * 100;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>trendValue = change.toFixed(2);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>trendClass = change &gt;= 0 ? 'positive' : 'negative';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return `&lt;span class="${trendClass}"&gt;${change &gt;= 0 ? '▲' : '▼'} ${Math.abs(trendValue)} % (vs PY)&lt;/span&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function renderKPIs() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const container = document.getElementById('kpi-container');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>container.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>for (const title in financialData) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const data = financialData[title];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const card = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>card.classList.add('kpi-card');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const trendHtml = calculateTrend(data.fy24, data.fy23, data.format);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>card.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="kpi-title"&gt;${title}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="kpi-value"&gt;${formatValue(data.fy24, data.format)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="kpi-trend"&gt;${trendHtml}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>container.appendChild(card);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Chart Rendering Function (Month-Wise Trends) ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let gstTrendChartInstance = null;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function renderGstTrendChart() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const ctx = document.getElementById('gstTrendChart');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Destroy existing chart instance if it exists to prevent overlap</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (gstTrendChartInstance) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>gstTrendChartInstance.destroy();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// If Chart.js is not loaded, skip rendering</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (typeof Chart === 'undefined') return;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>gstTrendChartInstance = new Chart(ctx, {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: 'line',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>data: {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>labels: CHART_DATA.labels,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>datasets: [</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>label: 'Total GST Liability (GSTR 3B)',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>data: CHART_DATA.liability,</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>borderColor: '#dc3545',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>backgroundColor: 'rgba(220, 53, 69, 0.1)',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>fill: false, // Set to false for a clean line chart</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>tension: 0.3</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>label: 'Total ITC Available (GSTR 3B)',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>data: CHART_DATA.itc,</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>borderColor: '#28a745',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>backgroundColor: 'rgba(40, 167, 69, 0.1)',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>fill: false,</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>tension: 0.3</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>]</p>
+<p class="p1"><span class="Apple-converted-space">                </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>responsive: true,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>maintainAspectRatio: false,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>plugins: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>legend: {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>position: 'bottom',</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>tooltip: {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>callbacks: {</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>// Add rupee symbol and formatting to tooltips</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>label: function(context) {</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>let label = context.dataset.label || '';</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>if (label) {</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>label += ': ';</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>if (context.parsed.y !== null) {</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>label += formatValue(context.parsed.y, 'currency');</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>return label;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>scales: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>y: {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>beginAtZero: true,</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>title: {</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>display: true,</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>text: 'Amount (₹)'</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>ticks: {</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>callback: function(value, index, values) {</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>// Custom formatting for large numbers on the Y-axis</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>if (value &gt;= 10000000) return '₹' + (value / 10000000).toFixed(1) + ' Cr';</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>if (value &gt;= 100000) return '₹' + (value / 100000).toFixed(1) + ' L';</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>return '₹' + value;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Interactivity ---</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function handleTabSwitch(event) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const tabId = event.target.getAttribute('data-tab');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Deactivate all tab buttons and content</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.querySelectorAll('.nav-tabs .tab-button').forEach(btn =&gt; btn.classList.remove('active'));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.querySelectorAll('.tab-content').forEach(content =&gt; content.classList.remove('active'));</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Activate the clicked button and corresponding content</p>
+<p class="p1"><span class="Apple-converted-space">            </span>event.target.classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById(tabId).classList.add('active');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- Dynamic Chart Loading ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Only render the chart when its specific tab is activated</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (tabId === 'trends') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Use a slight timeout to ensure the canvas element is visible before rendering</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setTimeout(renderGstTrendChart, 50);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Initialization ---</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.addEventListener('DOMContentLoaded', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// 1. Render the initial KPI cards</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderKPIs();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// 2. Attach event listeners to tab buttons for interaction</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.querySelectorAll('.nav-tabs .tab-button').forEach(button =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>button.addEventListener('click', handleTabSwitch);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// 3. Handle GSTIN selector change event (simulated)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('gstin-select').addEventListener('change', (event) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>alert(`Data for GSTIN ${event.target.value} would be loaded here and the dashboard would refresh!`);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
